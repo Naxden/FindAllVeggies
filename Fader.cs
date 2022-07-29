@@ -19,7 +19,7 @@ namespace Assets.Code {
         private void FadeOut() {
             if (SceneManager.GetActiveScene().buildIndex == 0) MusicMaster.musicMasterInstance.PlayMusicInMenu();
             else if(SceneManager.GetActiveScene().buildIndex == 6) MusicMaster.musicMasterInstance.PlayMusicInMarket();
-            if (SceneManager.GetActiveScene().buildIndex > 0 && SceneManager.GetActiveScene().buildIndex < 6 || SceneManager.GetActiveScene().buildIndex == 8) {
+            if (SceneManager.GetActiveScene().buildIndex > 0 && SceneManager.GetActiveScene().buildIndex < 4 || SceneManager.GetActiveScene().buildIndex == 8) {
                 StartCoroutine(WaitForRightMomentToFadeOut());
             } else if(SceneManager.GetActiveScene().buildIndex == 0) {
                 StartCoroutine(WaitForVideoToLoad());

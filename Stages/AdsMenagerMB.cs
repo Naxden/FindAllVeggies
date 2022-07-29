@@ -6,55 +6,86 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Code.Stages {
-    public class AdsMenagerMB : MonoBehaviour, IUnityAdsListener {
+    public class AdsMenagerMB : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsLoadListener, IUnityAdsShowListener {
 
         public static AdsMenagerMB AdvertisementMenagerInstance { get; private set; }
 
-        private string rewardedAd = "rewardedVideo", normalAd = "video";
+        private string rewardedAd = "Rewarded_Android", normalAd = "Interstitial_Android";
 
-        public bool adsEnabled { get; private set; } = false;
+        public bool adsEnabled = false;
+
+        public void WatchRewardedAd() {
+            Advertisement.Show(rewardedAd, this);
+        }
+
+        public void WatchNormalAd() {
+            Advertisement.Show(normalAd, this);
+        }
 
         private void Awake() {
             AdvertisementSingletonSetup();
+            Advertisement.Initialize("4837511", true, this);
         }
 
         private void Start() {
-            Advertisement.AddListener(this);
-            Advertisement.Initialize("3831159", true);
+            //There is need to be a time delay between Initialization, Loading and Showing ad.
+            Invoke("FirstLoadAds", 5f);
+            SceneManager.activeSceneChanged += LoadAds;
+        }
+        private void FirstLoadAds()
+        {
+            Advertisement.Load(rewardedAd, this);
+        }
+        private void LoadAds(Scene before, Scene Loaded)
+        {
+            if (WhichScene(Loaded.buildIndex) == 0)
+                Advertisement.Load(normalAd, this);
+            if (WhichScene(Loaded.buildIndex) == 1)
+                Advertisement.Load(rewardedAd, this);
         }
 
-        public void WatchRewardedAd() {
-            Advertisement.Show(rewardedAd);
-        }       
-
-        public void WatchNormalAd() {
-            Advertisement.Show(normalAd);
-        }
-
-        public void OnUnityAdsDidFinish(string placementId, ShowResult showResult) {
-            switch (WhichScene(SceneManager.GetActiveScene().buildIndex)) {
+        public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
+        {
+            switch (WhichScene(SceneManager.GetActiveScene().buildIndex))
+            {
                 case 0:
-                    UnityAdAfterMarket(showResult);
+                    UnityAdAfterMarket(showCompletionState);
                     break;
                 case 1:
-                    UnityAdAfterStage(showResult);
+                    UnityAdAfterStage(showCompletionState);
                     break;
                 default:
                     break;
             }
         }
 
-        private void UnityAdAfterStage(ShowResult showResult) {
-            if (showResult == ShowResult.Finished) {
+        public void OnUnityAdsDidFinish(string placementId, UnityAdsShowCompletionState showCompletionState) {
+            switch (WhichScene(SceneManager.GetActiveScene().buildIndex)) {
+                case 0:
+                    UnityAdAfterMarket(showCompletionState);
+                    break;
+                case 1:
+                    UnityAdAfterStage(showCompletionState);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void UnityAdAfterStage(UnityAdsShowCompletionState showCompletionState) {
+            if (showCompletionState == UnityAdsShowCompletionState.COMPLETED) {
                 PersistentGameMasterMB.GameMasterInstance.SumScore(true);
                 ChangeScene(6);
-            } else if(showResult == ShowResult.Failed) {
+            } else if(showCompletionState == UnityAdsShowCompletionState.UNKNOWN || 
+                      showCompletionState == UnityAdsShowCompletionState.SKIPPED) {
                 ChangeScene(6);
             }
         }
 
-        private void UnityAdAfterMarket(ShowResult showResult) {
-            if (showResult == ShowResult.Failed || showResult == ShowResult.Skipped || showResult == ShowResult.Finished) {
+        private void UnityAdAfterMarket(UnityAdsShowCompletionState showCompletionState) {
+            if (showCompletionState == UnityAdsShowCompletionState.COMPLETED || 
+                showCompletionState == UnityAdsShowCompletionState.SKIPPED || 
+                showCompletionState == UnityAdsShowCompletionState.UNKNOWN) {
                 try {
                     GameObject.FindObjectOfType<BackButtonMB>().adWatched = true;
                 } catch { }
@@ -82,15 +113,6 @@ namespace Assets.Code.Stages {
             SceneManager.LoadScene(sceneIndex);
         }
 
-        public void OnUnityAdsDidStart(string placementId) {
-        }
-
-        public void OnUnityAdsReady(string placementId) {
-        }
-
-        public void OnUnityAdsDidError(string message) {
-        }
-
         private void AdvertisementSingletonSetup() {         //If there is no other instance of this object set the instance to this one else destroy this game object
             if (AdvertisementMenagerInstance == null) {      //the result is that there is always only one instance of this script and it keeps its values whan changing
                 AdvertisementMenagerInstance = this;         //scenes.
@@ -99,5 +121,36 @@ namespace Assets.Code.Stages {
                 Destroy(gameObject);
             }
         }
+
+        public void OnInitializationComplete()
+        {
+            Debug.Log("Unity Ads initialization complete.");
+        }
+
+        public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+        {
+            Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+        }
+        public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
+        {
+            Debug.Log($"Error loading Ad Unit: {placementId} - {error.ToString()} - {message}");
+        }
+
+        public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message) 
+        {
+            Debug.Log($"Error showing Ad Unit {placementId}: {error.ToString()} - {message}");
+        }
+
+        public void OnUnityAdsShowStart(string placementId) { }
+
+        public void OnUnityAdsShowClick(string placementId) { }
+
+        public void OnUnityAdsAdLoaded(string placementId) { Debug.Log($"AdLoaded:  {placementId}"); }
+
+        public void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= LoadAds;
+        }
+
     }
 }
