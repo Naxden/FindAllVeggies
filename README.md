@@ -1,51 +1,44 @@
-# My High School Game - README
+# Find All Veggies - README
 
-Welcome to **My High School Game**, a project created by [Your Name] and [Friend's Name] during our high school days. This game was developed as a fun and creative endeavor, and we hope you enjoy playing it as much as we enjoyed making it!
+Welcome to **Find All Veggies**, a project created by Adrian Sarna, Jakub Kurc and Jan Kilar during our high school days. This game was developed as a fun and creative endeavor, and we hope you enjoy playing it as much as we enjoyed making it!
 
 ## Game Description
 
-My High School Game is a [describe the genre or type of game]. It combines elements of [mention any unique features or mechanics]. The game takes place in [describe the game world or setting]. Your objective is to [explain the main goal or objective of the game].
+Our High School Game is a [Gold Miner clone]. The objective of the game is to control a hook and use it to collect valuable veggies while simultaneously avoiding worms.
 
 ## Getting Started
 
-To play My High School Game, please follow these instructions:
+To play My High School Game, please follow the link to the Google Play: https://play.google.com/store/apps/details?id=com.Gammaelo.FindAllVeggies
 
-1. **System Requirements**: Ensure your computer meets the minimum system requirements, including the operating system version, processor, memory, and graphics capabilities. [Provide specific system requirements if applicable].
+1. **System Requirements**:
+- Android 10+ phone.
+- 250MB of free space
+- 2Gb RAM
 
-2. **Installation**: [Describe how to install the game]. You can download the game from [provide download link or specify the distribution platform].
-
-3. **Controls**: [List and explain the controls or provide a link to a control scheme if applicable]. 
-
-4. **Starting the Game**: [Describe how to launch the game]. Once you've installed the game, [explain how to start the game].
+2. **Controls**: The game features touch screen controls.
 
 ## Gameplay
 
-[Provide an overview of the gameplay mechanics and features]. Here are some key aspects of the game:
+Here are some key aspects of the game:
 
-- [Explain key gameplay elements].
-- [Describe any unique features or mechanics].
-- [Provide instructions on how to progress or win the game].
-- [Mention any multiplayer or cooperative gameplay options if applicable].
+- Collect veggies using hook while avoiding worms and infected veggies.
+- Buy upgrades using money earned from collecting veggies, Upgrade to the next stage by paying the required amount of game cash.
 
 ## Development
 
-My High School Game was created during our high school days as a passion project. We dedicated countless hours to designing and developing the game, including [mention specific aspects of development, such as programming languages, tools, or engines used].
+Find All Veggies was created during our high school days as a passion project. We dedicated countless hours to designing and developing the game, including learning to program in C#, mastering Unity Engine, implementing gameplay mechaincs and ads and brainstorming new ideas.
 
 ## Contributions
 
-We want to thank the following individuals who contributed to the development of My High School Game:
+We want to thank all our friends and family who supported us and helped testing the app.
 
-- [Your Name]
-- [Friend's Name]
+## Game screenshots
 
-## Bugs and Feedback
+![obraz](https://user-images.githubusercontent.com/58849519/236673600-006ddded-f33f-487d-b3a8-ec8dc128d409.png)
+![obraz](https://user-images.githubusercontent.com/58849519/236673606-e1c98ab2-4b61-4144-82c3-f15760cd72de.png)
+![obraz](https://user-images.githubusercontent.com/58849519/236673609-63c031de-ea18-4bc3-89e6-1afc754db1e9.png)
+![obraz](https://user-images.githubusercontent.com/58849519/236673615-61c787d9-8628-4101-9043-a3c691d942e6.png)
 
-We strive to provide an enjoyable gaming experience, but we understand that issues may arise. If you encounter any bugs, glitches, or have feedback to share, please reach out to us at [provide contact email or other preferred method of communication].
+## Closing statements
 
-## Future Updates
-
-While My High School Game was created as a project during our high school days, we may continue to update and improve the game in the future. Stay tuned for any announcements or new releases!
-
-## License
-
-[Specify the license for your game].
+We provide our code for free to read and use for everyone.
